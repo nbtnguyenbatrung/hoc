@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Board from './Board';
 import Win from './Winner';
 import '../css/Game.css';
-import location  from './location ';
+import Location from './location ';
 
 class Game extends Component {
     constructor(props) {
@@ -10,17 +10,23 @@ class Game extends Component {
         this.state = {
             Next: true,
             stepNumber: 0,
-            i : null,
             history: [
                 { squares: Array(9).fill(null),
-                    pos : '' }
-            ]
+                    loc : '' }
+            ],
+            check : true
         }
     }
     jumpTo(step){
         this.setState({
             stepNumber: step,
             Next: (step%2) === 0
+        })
+    }
+
+    toogle(){
+        this.setState({
+            check:false
         })
     }
 
@@ -33,55 +39,59 @@ class Game extends Component {
             return;
         }
         squares[i] = this.state.Next ? 'X' : 'O';
-        const pos = location(i);
+        const loc = Location(i);
         this.setState({
             
             history: history.concat({
                 squares: squares,
-                pos: pos
+                loc: loc
             }),
             Next: !this.state.Next,
-            stepNumber: history.length,
-            i : i 
+            stepNumber: history.length 
         });
-        console.log(history);
     }
-
 
     render() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
         const winner = Win(current.squares);
-        const kt = current.kt ;
-        
         const moves = history.map((step, move) => {
-            const desc = move ? step.pos : 'Start the Game';
+            const desc = move ? step.loc : 'Start the Game';
             return (
                 <li key={move}>
-                    <button className = { kt ? "indam" : "" } onClick={() => { this.jumpTo(move) }}>
+                    <button className = { move===history.length-1 ? "indam" : "" } onClick={() => { this.jumpTo(move) }}>
                         {desc}
                     </button>
                 </li>
             )
         });
+        
         let status;
+        let pos__winner;
         if (winner) {
-            status = 'Winner is ' + winner;
+            status = 'Winner is ' + winner.winner;
+            pos__winner = winner.pos;
         } else {
-            status = 'Next Player is ' + (this.state.Next ? 'X' : 'O');
+            if(history.length === 10){
+                status = ' X OR O hòa ' ;
+            }else{
+                status = 'Next Player is ' + (this.state.Next ? 'X' : 'O');
+            }
+            
         }
 
-
+        console.log(pos__winner);
         return (
             <div className="game">
                 <div className="game-board">
                     <Board onClick={(i) => this.handleClick(i)}
-                        squares={current.squares} />
+                        squares={current.squares}
+                        pos__winner={pos__winner}/>
                 </div>
                 <div className="game__infor">
                     
                     <div>{status}</div>
-                    <button className="game__infor--button " > toogle button  </button>
+                    <button className="game__infor--button "  > toogle button  </button>
                     <ol>{moves}</ol>
                 </div>
 

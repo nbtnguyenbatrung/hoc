@@ -5,7 +5,7 @@ import React from 'react';
 class Square extends React.Component {
     render(){
         return (
-            <button className="square" onClick={this.props.onClick}>
+            <button className={this.props.pos ? "square_inline" : "square"} onClick={this.props.onClick}>
                 {this.props.value}
             </button>
         )
