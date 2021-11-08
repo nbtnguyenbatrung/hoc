@@ -80,7 +80,6 @@ class Game extends Component {
             
         }
 
-        console.log(pos__winner);
         return (
             <div className="game">
                 <div className="game-board">
