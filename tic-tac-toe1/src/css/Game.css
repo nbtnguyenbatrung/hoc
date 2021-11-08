@@ -1,0 +1,12 @@
+.game{
+    display: flex;
+    text-align: center;
+}
+
+.game__infor{
+    float: right;
+}
+
+li{
+    list-style: none;
+}
