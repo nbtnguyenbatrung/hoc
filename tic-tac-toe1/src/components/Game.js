@@ -2,21 +2,25 @@ import React, { Component } from 'react'
 import Board from './Board';
 import Win from './Winner';
 import '../css/Game.css';
+import dongcot from './dongcot';
+
 class Game extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            xIsNext: true,
+            Next: true,
             stepNumber: 0,
+            i : null,
             history: [
-                { squares: Array(9).fill(null) }
+                { squares: Array(9).fill(null),
+                    kt : true }
             ]
         }
     }
     jumpTo(step){
         this.setState({
             stepNumber: step,
-            xIsNext: (step%2)===0
+            Next: (step%2) === 0
         })
     }
 
@@ -28,26 +32,32 @@ class Game extends Component {
         if (winner || squares[i]) {
             return;
         }
-        squares[i] = this.state.xIsNext ? 'X' : 'O';
+        squares[i] = this.state.Next ? 'X' : 'O';
         this.setState({
             history: history.concat({
-                squares: squares
+                squares: squares,
+                kt: true
             }),
-            xIsNext: !this.state.xIsNext,
-            stepNumber: history.length
+            Next: !this.state.Next,
+            stepNumber: history.length,
+            i : i 
         });
 
     }
+
 
     render() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
         const winner = Win(current.squares);
+        const kt = current.kt ;
+        
         const moves = history.map((step, move) => {
-            const desc = move ? 'Go to #' + move : 'Start the Game';
+            const dc = dongcot(this.state.i);
+            const desc = move ? dc : 'Start the Game';
             return (
                 <li key={move}>
-                    <button onClick={() => { this.jumpTo(move) }}>
+                    <button className = { kt ? "indam" : "" } onClick={() => { this.jumpTo(move) }}>
                         {desc}
                     </button>
                 </li>
@@ -57,7 +67,7 @@ class Game extends Component {
         if (winner) {
             status = 'Winner is ' + winner;
         } else {
-            status = 'Next Player is ' + (this.state.xIsNext ? 'X' : 'O');
+            status = 'Next Player is ' + (this.state.Next ? 'X' : 'O');
         }
 
 
@@ -68,7 +78,9 @@ class Game extends Component {
                         squares={current.squares} />
                 </div>
                 <div className="game__infor">
+                    
                     <div>{status}</div>
+                    <button className="game__infor--button " > toogle button  </button>
                     <ol>{moves}</ol>
                 </div>
 

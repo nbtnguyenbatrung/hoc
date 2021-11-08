@@ -10,3 +10,12 @@
 li{
     list-style: none;
 }
+
+.indam{
+    font-weight: bold;
+}
+
+.game__infor .game__infor--button{
+
+    margin: 1rem 0 0 1.3rem;
+}
