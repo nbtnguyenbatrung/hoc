@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Board from './Board';
 import Win from './Winner';
 import '../css/Game.css';
-import dongcot from './dongcot';
+import location  from './location ';
 
 class Game extends Component {
     constructor(props) {
@@ -13,7 +13,7 @@ class Game extends Component {
             i : null,
             history: [
                 { squares: Array(9).fill(null),
-                    kt : true }
+                    pos : '' }
             ]
         }
     }
@@ -33,19 +33,12 @@ class Game extends Component {
             return;
         }
         squares[i] = this.state.Next ? 'X' : 'O';
-        
-            this.setState( prevState => ({
-                history: {                  // đối tượng chúng ta cần update
-                  ...prevState.history,   // giữ lại tất cả các cặp key-value khác
-                  kt: false   // cập nhật giá trị của key cần update
-                }
-              }))
-              
+        const pos = location(i);
         this.setState({
             
             history: history.concat({
                 squares: squares,
-                kt: true
+                pos: pos
             }),
             Next: !this.state.Next,
             stepNumber: history.length,
@@ -62,9 +55,7 @@ class Game extends Component {
         const kt = current.kt ;
         
         const moves = history.map((step, move) => {
-            const dc = dongcot(this.state.i);
-            
-            const desc = move ? move : 'Start the Game';
+            const desc = move ? step.pos : 'Start the Game';
             return (
                 <li key={move}>
                     <button className = { kt ? "indam" : "" } onClick={() => { this.jumpTo(move) }}>
