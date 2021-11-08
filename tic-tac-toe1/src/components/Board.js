@@ -13,11 +13,11 @@ class Board extends React.Component {
     createSquares() {
         let rows = [];
         for(var i = 0; i < 3; i++){
-          let squares = [];
+          let square = [];
           for(var j = 0; j < 3; j++){
-            squares.push(this.renderSquare(3*i+j));
+            square.push(this.renderSquare(3*i+j));
           }
-          rows.push(<div className="board-row">{squares}</div>);
+          rows.push(<div className="board__row">{square}</div>);
         }
         return rows;
     }

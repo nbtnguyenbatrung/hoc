@@ -33,7 +33,16 @@ class Game extends Component {
             return;
         }
         squares[i] = this.state.Next ? 'X' : 'O';
+        
+            this.setState( prevState => ({
+                history: {                  // đối tượng chúng ta cần update
+                  ...prevState.history,   // giữ lại tất cả các cặp key-value khác
+                  kt: false   // cập nhật giá trị của key cần update
+                }
+              }))
+              
         this.setState({
+            
             history: history.concat({
                 squares: squares,
                 kt: true
@@ -42,7 +51,7 @@ class Game extends Component {
             stepNumber: history.length,
             i : i 
         });
-
+        console.log(history);
     }
 
 
@@ -54,7 +63,8 @@ class Game extends Component {
         
         const moves = history.map((step, move) => {
             const dc = dongcot(this.state.i);
-            const desc = move ? dc : 'Start the Game';
+            
+            const desc = move ? move : 'Start the Game';
             return (
                 <li key={move}>
                     <button className = { kt ? "indam" : "" } onClick={() => { this.jumpTo(move) }}>
