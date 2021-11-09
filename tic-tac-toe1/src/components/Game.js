@@ -26,7 +26,7 @@ class Game extends Component {
 
     toogle(){
         this.setState({
-            check:false
+            check: !this.state.check
         })
     }
 
@@ -59,12 +59,16 @@ class Game extends Component {
             const desc = move ? step.loc : 'Start the Game';
             return (
                 <li key={move}>
-                    <button className = { move===history.length-1 ? "indam" : "" } onClick={() => { this.jumpTo(move) }}>
+                    <button className = { move===history.length-1 ? "text__bold" : "" } onClick={() => { this.jumpTo(move) }}>
                         {desc}
                     </button>
                 </li>
             )
         });
+
+        if(!check){
+            moves.reverse();
+        }
         
         let status;
         let pos__winner;
@@ -90,7 +94,7 @@ class Game extends Component {
                 <div className="game__infor">
                     
                     <div>{status}</div>
-                    <button className="game__infor--button "  > toogle button  </button>
+                    <button className="game__infor--button " onClick={()=>this.toogle()}  > toogle button  </button>
                     <ol>{moves}</ol>
                 </div>
 
