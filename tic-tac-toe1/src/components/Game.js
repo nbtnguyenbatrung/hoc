@@ -66,7 +66,7 @@ class Game extends Component {
             )
         });
 
-        if(!check){
+        if(!this.state.check){
             moves.reverse();
         }
         
